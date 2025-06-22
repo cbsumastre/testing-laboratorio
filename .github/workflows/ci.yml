@@ -14,3 +14,20 @@ jobs:
 
       - name: Unit tests
         run: npm run test:unit
+
+      - name: e2e tests (cypress)
+        run: npm run test:e2e:cypress:ci
+
+      - name: Upload screenshots when specs fail
+        if: ${{failure()}}
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: ./cypress/screenshots
+
+      - name: Upload videos when specs fail
+        if: ${{failure()}}
+        uses: actions/upload-artifact@v4
+        with:
+          name: videos
+          path: ./cypress/videos
