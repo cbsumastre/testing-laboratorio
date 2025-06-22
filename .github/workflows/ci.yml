@@ -3,6 +3,8 @@ name: CI workflow
 on:
   schedule:
     - cron: 15 3 * * *
+  push:
+    branches: feature/laboratorio-testing-opcional
 
 jobs:
   ci:
