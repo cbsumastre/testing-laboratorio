@@ -36,5 +36,8 @@ jobs:
           name: videos
           path: ./cypress/videos
 
+      - name: Install playwright browsers
+        run: npx playwright install --with-deps
+
       - name: e2e tests (playwright)
         run: npm run test:e2e:playwright:ci
