@@ -1,0 +1,43 @@
+name: CI workflow
+
+on:
+  # schedule:
+  #   - cron: 15 3 * * *
+  push:
+    branches: ['feature/laboratorio-testing-opcional']
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install
+        run: npm ci
+
+      - name: Unit tests
+        run: npm run test:unit
+
+      - name: e2e tests (cypress)
+        run: npm run test:e2e:cypress:ci
+
+      - name: Upload screenshots when specs fail
+        if: ${{failure()}}
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: ./cypress/screenshots
+
+      - name: Upload videos when specs fail
+        if: ${{failure()}}
+        uses: actions/upload-artifact@v4
+        with:
+          name: videos
+          path: ./cypress/videos
+
+      - name: Install playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: e2e tests (playwright)
+        run: npm run test:e2e:playwright:ci
