@@ -35,3 +35,6 @@ jobs:
         with:
           name: videos
           path: ./cypress/videos
+
+      - name: e2e tests (playwright)
+        run: npm run test:e2e:playwright:ci
